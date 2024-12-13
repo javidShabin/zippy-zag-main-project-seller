@@ -1,7 +1,12 @@
 import React from "react";
+import Restaurant from "./authSeller/Resteauranr";
 
 const Dashbor = () => {
-  return <div>Dashbord</div>;
+  return (
+    <>
+    <Restaurant />
+    </>
+  )
 };
 
 export default Dashbor;

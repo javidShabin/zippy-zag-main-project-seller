@@ -4,15 +4,22 @@ import { axiosInstance } from "../../config/axiosInstance";
 const Restaurant = () => {
   const [restaurantId, setRestaurantId] = useState(null);
   const [restDetails, setRestDetails] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   // Fetch seller's restaurant ID
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
+      setError(null);
       try {
         const response = await axiosInstance.get("/seller/profile");
         setRestaurantId(response.data.restaurant);
       } catch (err) {
         console.error("Error fetching restaurant ID:", err);
+        setError(err);
+      } finally {
+        setLoading(false);
       }
     };
     fetchData();
@@ -23,76 +30,65 @@ const Restaurant = () => {
     if (!restaurantId) return;
 
     const getRestaurant = async () => {
+      setLoading(true);
+      setError(null);
       try {
         const response = await axiosInstance.get(
           `/restaurant/rest-details/${restaurantId}`
         );
         setRestDetails(response.data);
-      } catch (error) {
-        console.error("Error fetching restaurant details:", error);
+      } catch (err) {
+        console.error("Error fetching restaurant details:", err);
+        setError(err);
+      } finally {
+        setLoading(false);
       }
     };
     getRestaurant();
   }, [restaurantId]);
 
-  // Handle toggle button for isOpen
-  const toggleIsOpen = async () => {
-    try {
-      const updatedStatus = !restDetails.isOpen; // Toggle the current state
-      await axiosInstance.patch(`/restaurant/rest-details/${restaurantId}`, {
-        isOpen: updatedStatus,
-      });
-      setRestDetails((prevDetails) => ({
-        ...prevDetails,
-        isOpen: updatedStatus,
-      }));
-      console.log(`Restaurant is now ${updatedStatus ? "Open" : "Closed"}`);
-    } catch (err) {
-      console.error("Error updating isOpen status:", err);
-    }
-  };
-
-  // Placeholder for edit button functionality
-  const handleEdit = () => {
-    console.log("Edit button clicked");
-    // Add navigation or modal logic for editing
-  };
-
   return (
-    <main className="flex flex-col items-center w-full mt-8 px-4 py-6">
-      {/* Top Image Section */}
-      <div className="w-full max-w-5xl">
-        {restDetails.image && (
-          <img
-            className="w-full h-[300px] object-cover rounded-t-xl shadow-md"
-            src={restDetails.image}
-            alt="Restaurant"
-          />
-        )}
-      </div>
-
-      {/* Details Section */}
-      <div className="w-full max-w-5xl bg-white rounded-b-xl shadow-md px-6 py-8">
-        <div className="flex justify-between items-start">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-800">
-              {restDetails.name || "Loading..."}
-            </h1>
-            <h2 className="text-lg text-gray-600">{restDetails.location || ""}</h2>
-            <p className="text-gray-500">{restDetails.cuisine || ""}</p>
+    <div className="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg">
+      {loading ? (
+        <p className="text-center text-xl text-gray-500">Loading...</p>
+      ) : error ? (
+        <p className="text-center text-xl text-red-500">Error: {error.message}</p>
+      ) : (
+        <div className=" w-full flex flex-col md:flex-row justify-between items-center space-x-6">
+          {/* Restaurant Image on the left */}
+          <div className="w-full md:w-1/3 mb-4 md:mb-0">
+            <img
+              src={restDetails.image}
+              alt={restDetails.name}
+              className="w-full h-auto rounded-lg shadow-md"
+            />
           </div>
-          {/* Edit Button */}
-          <button
-            onClick={handleEdit}
-            className="px-6 py-2 text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700"
-          >
-            Edit
-          </button>
-        </div>
 
-        
+          {/* Restaurant Details on the right */}
+          <div className=" space-y-4">
+            <h1 className="text-3xl font-semibold text-gray-800">{restDetails.name}</h1>
+            <p className="text-lg text-gray-600">{restDetails.location}</p>
+            <p className="text-md text-gray-600">{restDetails.cuisine}</p>
+
+            <div className="text-lg">
+              <p
+                className={`font-semibold ${restDetails.isOpen ? "text-green-500" : "text-red-500"}`}
+              >
+                {restDetails.isOpen ? "Open Now" : "Closed"}
+              </p>
+            </div>
+
+            <p className="text-sm text-gray-500">
+              Created At: {new Date(restDetails.createdAt).toLocaleDateString()}
+            </p>
+          </div>
+        </div>
+      )}
+      <div>
+      <button>Open Now</button>
+      <button>Close Now</button>
       </div>
-    </main>
+    </div>
   );
 };
 
