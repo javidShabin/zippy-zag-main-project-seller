@@ -42,7 +42,7 @@ const AuthSidebar = () => {
               <span>Dashboard</span>
             </li>
           </Link>
-          <Link to={"/admin/restaurant-list"} className="p-2">
+          <Link to={"/seller/rest-details"} className="p-2">
             <li className="flex items-center space-x-3 cursor-pointer px-2 hover:bg-gray-700 rounded-md">
               <List className="w-5 h-5" />
               <span>Restaurants</span>
