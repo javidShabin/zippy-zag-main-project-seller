@@ -7,8 +7,10 @@ export default function SignupPage() {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm();
+
   const onSubmit = async (data) => {
     try {
       const response = await axiosInstance({
@@ -16,11 +18,11 @@ export default function SignupPage() {
         url: "/seller/register",
         data,
       });
-      toast.success("Create seller");
+      toast.success("Seller registered successfully");
       console.log(response);
     } catch (error) {
       console.log(error);
-      toast.error(error.response.data.message);
+      toast.error(error?.response?.data?.message || "Something went wrong");
     }
   };
 
@@ -40,6 +42,9 @@ export default function SignupPage() {
           type="text"
           {...register("restaurantId", { required: true })}
         />
+        {errors.restaurantId && (
+          <span className="text-red-500 mb-4">Restaurant ID is required</span>
+        )}
 
         <input
           className="mb-4 p-3 border border-gray-300 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -47,6 +52,7 @@ export default function SignupPage() {
           placeholder="Name"
           {...register("name", { required: true })}
         />
+        {errors.name && <span className="text-red-500 mb-4">Name is required</span>}
 
         <input
           className="mb-4 p-3 border border-gray-300 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -54,6 +60,7 @@ export default function SignupPage() {
           placeholder="Email"
           {...register("email", { required: true })}
         />
+        {errors.email && <span className="text-red-500 mb-4">Email is required</span>}
 
         <input
           className="mb-4 p-3 border border-gray-300 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -61,23 +68,40 @@ export default function SignupPage() {
           placeholder="Password"
           {...register("password", { required: true })}
         />
+        {errors.password && <span className="text-red-500 mb-4">Password is required</span>}
 
         <input
           className="mb-4 p-3 border border-gray-300 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
           type="password"
-          placeholder="Conform Password"
-          {...register("conformPassword", { required: true })}
+          placeholder="Confirm Password"
+          {...register("conformPassword", {
+            required: true,
+            validate: (value) =>
+              value === watch("password") || "Passwords do not match",
+          })}
         />
+        {errors.conformPassword && (
+          <span className="text-red-500 mb-4">
+            {errors.conformPassword.message}
+          </span>
+        )}
 
         <input
           className="mb-4 p-3 border border-gray-300 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
           type="tel"
           placeholder="Phone"
-          {...register("phone", { required: true })}
+          {...register("phone", {
+            required: true,
+            pattern: {
+              value: /^[0-9]{10}$/,
+              message: "Phone must be 10 digits",
+            },
+          })}
         />
-
-        {errors.exampleRequired && (
-          <span className="text-red-500 mb-4">This field is required</span>
+        {errors.phone && (
+          <span className="text-red-500 mb-4">
+            {errors.phone.message || "Phone is required"}
+          </span>
         )}
 
         <p className="text-gray-500">
