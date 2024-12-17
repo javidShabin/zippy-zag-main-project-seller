@@ -44,10 +44,10 @@ const WelcomPage = () => {
         {/* Text Section */}
         <div className="text-center">
           <h1 className="text-white text-3xl sm:text-4xl md:text-5xl lg:text-[75px] font-black">
-            Welcome to Your Admin Portal
+            Welcome to Your Seller Portal
           </h1>
           <h2 className="text-[#ffa100] text-2xl sm:text-3xl md:text-5xl lg:text-[70px] font-black mt-4">
-            Manage Restaurants
+            Manage Your Menu & Orders
           </h2>
           <p className="text-[#646464] mt-3 text-xs sm:text-sm lg:text-lg">
             www.zippyzag.com

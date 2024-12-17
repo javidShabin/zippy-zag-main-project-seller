@@ -3,7 +3,6 @@ import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { axiosInstance } from "../config/axiosInstance";
 import { clearSeller, saveSeller } from "../redux/features/sellerSlice";
-import UnAuthSidebar from "../components/UnAuthSidebar";
 import AuthSidebar from "../components/AuthSeller/AuthSidebar";
 
 const SellerLayout = () => {
@@ -38,12 +37,12 @@ const SellerLayout = () => {
     );
   }
   return (
-    <div className="flex h-screen">
-      <div className="sticky top-0 w-64 bg-white shadow-lg">
-        {isSellerExist ? <AuthSidebar /> : <UnAuthSidebar />}
+    <div className="">
+      <div className="">
+        {isSellerExist ? <AuthSidebar /> : ""}
       </div>
       {/* Main Content Section */}
-      <div className="flex-1 bg-gray-100 p-4 overflow-y-auto">
+      <div className="flex-1 bg-gray-100  overflow-y-auto">
         <Outlet />
       </div>
     </div>

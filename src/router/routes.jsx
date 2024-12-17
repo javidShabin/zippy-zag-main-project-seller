@@ -1,10 +1,10 @@
 import { createBrowserRouter } from "react-router-dom";
 import SignupPage from "../pages/SignupPage";
 import SellerLayout from "../layout/SellerLayout";
-import Dashbor from "../pages/Dashbord";
 import LoginPage from "../pages/LoginPage";
 import AuthSeller from "./protectedRoute/AuthSeller";
 import Resteaurant from "../pages/authSeller/Resteauranr";
+import SpecialComponent from "../layout/SpecialComponent";
 
 
 export const router = createBrowserRouter([
@@ -15,7 +15,7 @@ export const router = createBrowserRouter([
         children: [
            {
             path: "/",
-            element: <Dashbor />
+            element: <SpecialComponent />
            },
            {
             path: "sign-up",

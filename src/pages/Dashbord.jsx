@@ -1,7 +1,7 @@
 import React from "react";
 import Restaurant from "./authSeller/Resteauranr";
 
-const Dashbor = () => {
+const Dashbord = () => {
   return (
     <>
     <Restaurant />
@@ -9,4 +9,4 @@ const Dashbor = () => {
   )
 };
 
-export default Dashbor;
+export default Dashbord;
