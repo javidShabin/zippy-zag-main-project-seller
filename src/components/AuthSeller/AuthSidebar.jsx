@@ -20,7 +20,7 @@ const AuthSidebar = () => {
         method: "POST",
         url: "/seller/logout",
       });
-      toast.success("admin logout");
+      toast.success("seller logout");
       console.log("Logout Response:", response);
       navigate("/log-in");
     } catch (error) {
