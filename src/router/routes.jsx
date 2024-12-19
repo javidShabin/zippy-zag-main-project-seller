@@ -9,6 +9,7 @@ import MenuList from "../pages/authSeller/MenuList";
 import ProfilePage from "../pages/authSeller/Profile";
 import EditProfile from "../pages/authSeller/ProfileEditePage";
 import CreateMenu from "../pages/authSeller/CreateMenu";
+import GetOrderDetails from "../components/AuthSeller/GetOrderDetails";
 
 export const router = createBrowserRouter([
   {
@@ -53,6 +54,10 @@ export const router = createBrowserRouter([
           {
             path: "create-menu",
             element: <CreateMenu />
+          },
+          {
+            path: "oder-details/:orderId",
+            element: <GetOrderDetails />
           }
         ],
       },
