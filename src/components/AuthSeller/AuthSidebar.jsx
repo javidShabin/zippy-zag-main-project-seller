@@ -4,8 +4,8 @@ import {
   List,
   Users,
   Package,
-  Settings,
   LogOut,
+  User2Icon,
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { axiosInstance } from "../../config/axiosInstance";
@@ -60,6 +60,12 @@ const AuthSidebar = () => {
               <span>Create restaurant</span>
             </li>
           </Link>
+          <Link to={"/seller"}>
+          <li className="flex items-center space-x-3 cursor-pointer px-2 py-2 hover:bg-gray-700 rounded-md">
+              <User2Icon className="w-5 h-5" />
+              <span>Profile</span>
+            </li>
+          </Link>
 
           <li
             onClick={logOut}
@@ -67,10 +73,6 @@ const AuthSidebar = () => {
           >
             <LogOut className="w-5 h-5" />
             <span>Logout</span>
-          </li>
-          <li className="flex items-center space-x-3 cursor-pointer px-2 hover:bg-gray-700 rounded-md">
-            <Settings className="w-5 h-5" />
-            <span>Settings</span>
           </li>
         </ul>
       </nav>
