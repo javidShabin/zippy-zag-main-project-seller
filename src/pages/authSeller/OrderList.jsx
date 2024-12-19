@@ -38,15 +38,16 @@ const OrderList = () => {
         const response = await axiosInstance.get(
           `/payment/orderByRestaurant/${restaurantId}`
         );
-        console.log("Order API response:", response); // Log full response for debugging
-        if (response.data && response.data.orders) {
-          setOrders(response.data.orders);
-          console.log("Orders fetched successfully:", response.data.orders);
-        } else {
-          console.warn("No orders found for this restaurant.");
-        }
+        console.log(response, "====daataaas")
+        // console.log("Order API response:", response); // Log full response for debugging
+        // if (response.data && response.data.orders) {
+        //   setOrders(response.data.orders);
+        //   console.log("Orders fetched successfully:", response.data.orders);
+        // } else {
+        //   console.warn("No orders found for this restaurant.");
+        // }
       } catch (error) {
-        console.error("Error fetching order list:", error);
+        // console.error("Error fetching order list:", error);
       }
     };
 
