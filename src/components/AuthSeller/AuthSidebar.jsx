@@ -2,8 +2,6 @@ import React from "react";
 import {
   LayoutDashboard,
   List,
-  Users,
-  Package,
   LogOut,
   User2Icon,
 } from "lucide-react";
@@ -46,18 +44,6 @@ const AuthSidebar = () => {
             <li className="flex items-center space-x-3 cursor-pointer px-2 hover:bg-gray-700 rounded-md">
               <List className="w-5 h-5" />
               <span>Menu List</span>
-            </li>
-          </Link>
-          <Link to={"/admin/user-list"} className="p-2">
-            <li className="flex items-center space-x-3 cursor-pointer px-2 hover:bg-gray-700 rounded-md">
-              <Users className="w-5 h-5" />
-              <span>Users</span>
-            </li>
-          </Link>
-          <Link to={"/admin/create-restaurant"}>
-            <li className="flex items-center space-x-3 cursor-pointer px-2 hover:bg-gray-700 rounded-md">
-              <Package className="w-5 h-5" />
-              <span>Create restaurant</span>
             </li>
           </Link>
           <Link to={"/seller/profile"}>
