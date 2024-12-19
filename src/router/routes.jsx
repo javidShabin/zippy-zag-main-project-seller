@@ -7,6 +7,7 @@ import SpecialComponent from "../layout/SpecialComponent";
 import RestaurantDetails from "../pages/authSeller/RestaurantDetails";
 import MenuList from "../pages/authSeller/MenuList";
 import ProfilePage from "../pages/authSeller/Profile";
+import EditProfile from "../pages/authSeller/ProfileEditePage";
 
 export const router = createBrowserRouter([
   {
@@ -42,8 +43,12 @@ export const router = createBrowserRouter([
           },
           {
             path: "profile",
-            element: <ProfilePage />
-          }
+            element: <ProfilePage />,
+          },
+          {
+            path: "edit-profile",
+            element: <EditProfile />,
+          },
         ],
       },
     ],
