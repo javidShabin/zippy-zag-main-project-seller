@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { axiosInstance } from "../../config/axiosInstance";
 import { Link } from "react-router-dom";
+import { axiosInstance } from "../../config/axiosInstance";
 
 const OrderList = () => {
   const [restaurantId, setRestaurantId] = useState(null);
@@ -35,9 +35,10 @@ const OrderList = () => {
       }
 
       try {
-        const response = await axiosInstance.get(
-          `/payment/orderByRestaurant/${restaurantId}`
-        );
+        const response = await axiosInstance({
+          method: "GET",
+          url: `/payment/orderByRestaurant/${restaurantId}`
+        })
         console.log(response, "====daataaas")
         // console.log("Order API response:", response); // Log full response for debugging
         // if (response.data && response.data.orders) {
