@@ -4,54 +4,35 @@ import { Link } from "react-router-dom";
 
 const OrderList = () => {
   const [restaurantId, setRestaurantId] = useState(null);
-  const [orders, setOrders] = useState([]);
+  const [order, setOrder] = useState([]);
 
-  // Fetch Restaurant ID on component mount
   useEffect(() => {
-    const fetchRestaurantId = async () => {
+    const fetchData = async () => {
       try {
         const response = await axiosInstance.get("/seller/profile");
-        const fetchedRestaurantId = response.data.restaurant;
-        if (fetchedRestaurantId) {
-          setRestaurantId(fetchedRestaurantId);
-          console.log("Restaurant ID fetched:", fetchedRestaurantId);
-        } else {
-          console.warn("Restaurant ID is null or undefined.");
-        }
-      } catch (error) {
-        console.error("Error fetching restaurant ID:", error);
+        setRestaurantId(response.data.restaurant);
+        console.log(response, "==der");
+      } catch (err) {
+        console.error("Error fetching restaurant ID:", err);
       }
     };
-
-    fetchRestaurantId();
+    fetchData();
   }, []);
 
-  // Fetch order list after restaurant ID is fetched
   useEffect(() => {
-    const fetchOrderList = async () => {
-      // if (!restaurantId) {
-      //   console.warn("Cannot fetch orders because restaurantId is null.");
-      //   return;
-      // }
-
+    const getOrderList = async () => {
+      if (!restaurantId) return; // Wait until restaurantId is available
       try {
         const response = await axiosInstance.get(
-          `/payment/orderByRestaurant/${restaurantId}`
+          `/payment/orderBy-restaurant/${restaurantId}`
         );
-        console.log("Order API response:", response); // Log full response for debugging
-        if (response.data && response.data.orders) {
-          setOrders(response.data.orders);
-          console.log("Orders fetched successfully:", response.data.orders);
-        } else {
-          console.warn("No orders found for this restaurant.");
-        }
+        setOrder(response.data.orders);
       } catch (error) {
         console.error("Error fetching order list:", error);
       }
     };
-
-    fetchOrderList();
-  }, []);
+    getOrderList();
+  }, [restaurantId]); // Added restaurantId as a dependency
 
   return (
     <div className="order-list flex justify-center flex-col items-center p-6">
@@ -61,45 +42,46 @@ const OrderList = () => {
           <thead>
             <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
               <th className="border border-gray-300 px-6 py-3">Order ID</th>
-              <th className="border border-gray-300 px-6 py-3">Customer Name</th>
+              <th className="border border-gray-300 px-6 py-3">
+                Customer Name
+              </th>
               <th className="border border-gray-300 px-6 py-3">Total Amount</th>
               <th className="border border-gray-300 px-6 py-3">Status</th>
-              <th className="border border-gray-300 px-6 py-3">Actions</th>
             </tr>
           </thead>
           <tbody className="text-gray-700 text-sm">
-            {orders.length > 0 ? (
-              orders.map((order) => (
+            {order.length > 0 ? (
+              order.map((o) => (
                 <tr
-                  key={order._id}
+                  key={o._id}
                   className="border border-gray-200 hover:bg-gray-100 transition-colors"
                 >
-                  <td className="px-6 py-4">{order._id}</td>
-                  <td className="px-6 py-4">{order.address?.name || "N/A"}</td>
-                  <td className="px-6 py-4">${order.totalAmount.toFixed(2)}</td>
+                  <td className="px-6 py-4">{o._id}</td>
+                  <td className="px-6 py-4">{o.address.name}</td>
+                  <td className="px-6 py-4">${o.totalAmount}</td>
                   <td className="px-6 py-4">
                     <span
                       className={`py-1 px-3 rounded-full text-xs ${
-                        order.orderStatus === "Completed"
+                        o.orderStatus === "Completed"
                           ? "bg-green-100 text-green-600"
                           : "bg-yellow-100 text-yellow-600"
                       }`}
                     >
-                      {order.orderStatus}
+                      {o.orderStatus}
                     </span>
                   </td>
-                  <td className="px-6 py-4">
-                    <Link to={`/seller/order-details/${order._id}`}>
+                  <Link to={`/seller/oder-details/${o._id}`}>
+                    <td className="px-6 py-4">
                       <button className="text-blue-500 hover:text-blue-700 focus:outline-none py-2 px-4 border border-blue-500 rounded-md transition-colors">
                         View
                       </button>
-                    </Link>
-                  </td>
+                    </td>
+                  </Link>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan="5" className="text-center px-6 py-4 text-gray-500">
+                <td colSpan="4" className="text-center px-6 py-4 text-gray-500">
                   No orders found.
                 </td>
               </tr>
