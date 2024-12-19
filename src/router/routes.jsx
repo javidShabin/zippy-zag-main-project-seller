@@ -5,38 +5,42 @@ import LoginPage from "../pages/LoginPage";
 import AuthSeller from "./protectedRoute/AuthSeller";
 import SpecialComponent from "../layout/SpecialComponent";
 import RestaurantDetails from "../pages/authSeller/RestaurantDetails";
-
+import MenuList from "../pages/authSeller/MenuList";
 
 export const router = createBrowserRouter([
-    {
+  {
+    path: "/",
+    element: <SellerLayout />,
+
+    children: [
+      {
         path: "/",
-        element: <SellerLayout />,
+        element: <SpecialComponent />,
+      },
+      {
+        path: "sign-up",
+        element: <SignupPage />,
+      },
+      {
+        path: "log-in",
+        element: <LoginPage />,
+      },
+
+      {
+        path: "seller",
+        element: <AuthSeller />,
 
         children: [
-           {
-            path: "/",
-            element: <SpecialComponent />
-           },
-           {
-            path: "sign-up",
-            element: <SignupPage />
-           },
-           {
-            path: "log-in",
-            element: <LoginPage />
-           },
-
-           {
-            path: "seller",
-            element: <AuthSeller />,
-
-            children: [
-                {
-                    path: "rest-details",
-                    element: <RestaurantDetails />
-                }
-            ]
-           }
-        ]
-    }
-])
+          {
+            path: "rest-details",
+            element: <RestaurantDetails />,
+          },
+          {
+            path: "menu-list",
+            element: <MenuList />,
+          },
+        ],
+      },
+    ],
+  },
+]);
