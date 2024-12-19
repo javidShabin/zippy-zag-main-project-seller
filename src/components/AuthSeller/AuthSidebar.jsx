@@ -60,7 +60,7 @@ const AuthSidebar = () => {
               <span>Create restaurant</span>
             </li>
           </Link>
-          <Link to={"/seller"}>
+          <Link to={"/seller/profile"}>
           <li className="flex items-center space-x-3 cursor-pointer px-2 py-2 hover:bg-gray-700 rounded-md">
               <User2Icon className="w-5 h-5" />
               <span>Profile</span>

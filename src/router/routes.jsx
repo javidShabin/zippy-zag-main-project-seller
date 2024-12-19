@@ -6,6 +6,7 @@ import AuthSeller from "./protectedRoute/AuthSeller";
 import SpecialComponent from "../layout/SpecialComponent";
 import RestaurantDetails from "../pages/authSeller/RestaurantDetails";
 import MenuList from "../pages/authSeller/MenuList";
+import ProfilePage from "../pages/authSeller/Profile";
 
 export const router = createBrowserRouter([
   {
@@ -39,6 +40,10 @@ export const router = createBrowserRouter([
             path: "menu-list",
             element: <MenuList />,
           },
+          {
+            path: "profile",
+            element: <ProfilePage />
+          }
         ],
       },
     ],
