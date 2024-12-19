@@ -1,99 +1,73 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { axiosInstance } from "../../config/axiosInstance";
+import { useParams } from "react-router-dom";
 
-const MenuList = () => {
-  const [restaurantId, setRestaurantId] = useState(null);
-  const [loading, setLoading] = useState(true);
+const Menus = ({ restaurantId }) => {
   const [menus, setMenu] = useState([]);
-  const [error, setError] = useState(null);
-  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
 
-  // Fetch seller's restaurant ID
+  // Get the menus for the restaurant
+  const getMenuForRestaurant = async () => {
+    try {
+      const response = await axiosInstance({
+        method: "GET",
+        url: `/menu/menu/${restaurantId}`,
+      });
+      console.log(response)
+      setMenu(response.data.menus);
+    } catch (error) {
+      console.error("Error fetching menus", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axiosInstance.get("/seller/profile");
-        setRestaurantId(response.data.restaurant);
-      } catch (err) {
-        console.error("Error fetching restaurant ID:", err);
-        setError(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
+    getMenuForRestaurant();
   }, []);
-
-  // Fetch menu list when restaurantId is available
-  useEffect(() => {
-    if (!restaurantId) return;
-
-    const getMenuList = async () => {
-      try {
-        const response = await axiosInstance.get(
-          `/menu/menu/${restaurantId}`
-        );
-        setMenu(response.data.menus);
-      } catch (error) {
-        console.error("Error fetching menus:", error);
-        setError(error);
-      }
-    };
-    getMenuList();
-  }, [restaurantId]);
 
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
-        <p className="text-gray-500 text-xl">Loading menus...</p>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <p className="text-red-500 text-xl">Error: {error.message}</p>
+        <span className="loading loading-dots loading-lg bg-orange-400"></span>
       </div>
     );
   }
 
   return (
-    <div className="max-w-6xl mx-auto p-2">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold text-gray-800">Menu List</h1>
-        
-      </div>
-      {menus.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+    <section className="py-16 w-[100%]">
+      <div className="container mx-auto px-6">
+        <h2 className="text-4xl font-bold text-center text-gray-800 mb-12">
+          Explore Our Delicious Menus
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
           {menus.map((menu) => (
             <div
-              key={menu.id}
-              className="bg-white shadow-lg rounded-lg p-4 hover:shadow-xl transition-shadow duration-300"
+              key={menu._id}
+              className="bg-white p-6 rounded-xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition duration-300"
             >
-              <img
-                src={menu.image}
-                alt={menu.name}
-                className="w-full h-32 object-cover rounded-md mb-4"
-              />
-              <h2 className="text-xl font-semibold text-gray-800 mb-2">
-                {menu.name}
-              </h2>
-              <p className="text-gray-600 mb-2">{menu.description}</p>
-              <p className="text-lg font-bold text-green-600">
-                ₹{menu.price}
-              </p>
+              {menu.image && (
+                <img
+                  src={menu.image}
+                  alt={menu.name}
+                  className="w-full h-56 object-cover rounded-lg mb-6"
+                />
+              )}
+              <div className="text-center">
+                <h3 className="text-2xl font-semibold text-gray-900 mb-2">
+                  {menu.name}
+                </h3>
+                <p className="text-gray-700 text-sm mb-4">{menu.description}</p>
+                <p className="text-xl font-bold text-orange-600 mb-4">
+                  {`Rs:${menu.price.toFixed(2)}`}
+                </p>
+              </div>
             </div>
           ))}
         </div>
-      ) : (
-        <p className="text-center text-gray-500 text-lg">
-          No menus available.
-        </p>
-      )}
-    </div>
+      </div>
+    </section>
   );
 };
 
-export default MenuList;
+export default Menus;
