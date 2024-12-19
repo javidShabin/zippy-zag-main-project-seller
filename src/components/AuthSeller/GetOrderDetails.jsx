@@ -16,6 +16,7 @@ const GetOrderDetails = () => {
           signal: controller.signal, // Pass abort signal
         });
         setOrderDetails(response.data);
+        console.log(response, "===response")
       } catch (err) {
         if (err.name === "CanceledError") {
           console.log("Request canceled");
