@@ -4,6 +4,7 @@ import SellerLayout from "../layout/SellerLayout";
 import LoginPage from "../pages/LoginPage";
 import AuthSeller from "./protectedRoute/AuthSeller";
 import SpecialComponent from "../layout/SpecialComponent";
+import RestaurantDetails from "../pages/authSeller/RestaurantDetails";
 
 
 export const router = createBrowserRouter([
@@ -32,7 +33,7 @@ export const router = createBrowserRouter([
             children: [
                 {
                     path: "rest-details",
-                    element: ""
+                    element: <RestaurantDetails />
                 }
             ]
            }
