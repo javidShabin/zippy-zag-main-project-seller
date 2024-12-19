@@ -25,7 +25,7 @@ const OrderList = () => {
       if (!restaurantId) return; // Ensure restaurantId is available
       try {
         const response = await axiosInstance.get(
-          `/payment/orderBy-restaurant/${restaurantId}`
+          `/payment/orderByRestaurant/${restaurantId}`
         );
         setOrders(response.data.orders);
       } catch (error) {
