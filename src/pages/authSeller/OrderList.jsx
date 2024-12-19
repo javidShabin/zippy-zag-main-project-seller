@@ -6,14 +6,17 @@ const OrderList = () => {
   const [restaurantId, setRestaurantId] = useState(null);
   const [orders, setOrders] = useState([]);
 
-  console.log(restaurantId, "===restaurant id")
-
   useEffect(() => {
     const fetchRestaurantId = async () => {
       try {
         const response = await axiosInstance.get("/seller/profile");
-        setRestaurantId(response.data.restaurant);
-        console.log("Restaurant ID fetched:", response.data.restaurant);
+        const fetchedRestaurantId = response.data.restaurant;
+        if (fetchedRestaurantId) {
+          setRestaurantId(fetchedRestaurantId);
+          console.log("Restaurant ID fetched:", fetchedRestaurantId);
+        } else {
+          console.warn("Restaurant ID is null or undefined.");
+        }
       } catch (error) {
         console.error("Error fetching restaurant ID:", error);
       }
@@ -24,12 +27,21 @@ const OrderList = () => {
 
   useEffect(() => {
     const fetchOrderList = async () => {
-      if (!restaurantId) return; // Ensure restaurantId is available
+      if (!restaurantId) {
+        console.warn("Cannot fetch orders because restaurantId is null.");
+        return;
+      }
+
       try {
         const response = await axiosInstance.get(
           `/payment/orderByRestaurant/${restaurantId}`
         );
-        setOrders(response.data.orders);
+        if (response.data && response.data.orders) {
+          setOrders(response.data.orders);
+          console.log("Orders fetched successfully:", response.data.orders);
+        } else {
+          console.warn("No orders found for this restaurant.");
+        }
       } catch (error) {
         console.error("Error fetching order list:", error);
       }
