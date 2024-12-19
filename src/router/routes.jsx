@@ -8,6 +8,7 @@ import RestaurantDetails from "../pages/authSeller/RestaurantDetails";
 import MenuList from "../pages/authSeller/MenuList";
 import ProfilePage from "../pages/authSeller/Profile";
 import EditProfile from "../pages/authSeller/ProfileEditePage";
+import CreateMenu from "../pages/authSeller/CreateMenu";
 
 export const router = createBrowserRouter([
   {
@@ -49,6 +50,10 @@ export const router = createBrowserRouter([
             path: "edit-profile",
             element: <EditProfile />,
           },
+          {
+            path: "create-menu",
+            element: <CreateMenu />
+          }
         ],
       },
     ],
