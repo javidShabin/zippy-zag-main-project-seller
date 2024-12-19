@@ -37,16 +37,19 @@ const SellerLayout = () => {
     );
   }
   return (
-    <div className="flex">
+    <div className="flex h-screen">
   {/* Sidebar Section */}
-  <div className="w-64 bg-gray-800">
-    {isSellerExist ? <AuthSidebar /> : ""}
-  </div>
+  
+  {isSellerExist ?
+      <div className="sticky top-0 w-64 bg-white shadow-lg">
+           <AuthSidebar />
+      </div>
+      : ""}
 
   {/* Main Content Section */}
   <div className="flex-1 bg-gray-100 overflow-y-auto">
-    <Outlet />
-  </div>
+        <Outlet />
+      </div>
 </div>
 
   );
