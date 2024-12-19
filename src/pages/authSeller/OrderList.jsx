@@ -11,7 +11,7 @@ const OrderList = () => {
       try {
         const response = await axiosInstance.get("/seller/profile");
         setRestaurantId(response.data.restaurant);
-        console.log(response, "==der");
+        console.log("Restaurant ID fetched:", response.data.restaurant);
       } catch (err) {
         console.error("Error fetching restaurant ID:", err);
       }
@@ -32,7 +32,7 @@ const OrderList = () => {
       }
     };
     getOrderList();
-  }, [restaurantId]); // Added restaurantId as a dependency
+  }, [restaurantId]);
 
   return (
     <div className="order-list flex justify-center flex-col items-center p-6">
@@ -41,12 +41,21 @@ const OrderList = () => {
         <table className="w-full table-auto border-collapse border border-gray-200 rounded-lg">
           <thead>
             <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-              <th className="border border-gray-300 px-6 py-3">Order ID</th>
-              <th className="border border-gray-300 px-6 py-3">
+              <th scope="col" className="border border-gray-300 px-6 py-3">
+                Order ID
+              </th>
+              <th scope="col" className="border border-gray-300 px-6 py-3">
                 Customer Name
               </th>
-              <th className="border border-gray-300 px-6 py-3">Total Amount</th>
-              <th className="border border-gray-300 px-6 py-3">Status</th>
+              <th scope="col" className="border border-gray-300 px-6 py-3">
+                Total Amount
+              </th>
+              <th scope="col" className="border border-gray-300 px-6 py-3">
+                Status
+              </th>
+              <th scope="col" className="border border-gray-300 px-6 py-3">
+                Actions
+              </th>
             </tr>
           </thead>
           <tbody className="text-gray-700 text-sm">
@@ -57,8 +66,8 @@ const OrderList = () => {
                   className="border border-gray-200 hover:bg-gray-100 transition-colors"
                 >
                   <td className="px-6 py-4">{o._id}</td>
-                  <td className="px-6 py-4">{o.address.name}</td>
-                  <td className="px-6 py-4">${o.totalAmount}</td>
+                  <td className="px-6 py-4">{o.address?.name || "N/A"}</td>
+                  <td className="px-6 py-4">${o.totalAmount.toFixed(2)}</td>
                   <td className="px-6 py-4">
                     <span
                       className={`py-1 px-3 rounded-full text-xs ${
@@ -70,18 +79,18 @@ const OrderList = () => {
                       {o.orderStatus}
                     </span>
                   </td>
-                  <Link to={`/seller/oder-details/${o._id}`}>
-                    <td className="px-6 py-4">
+                  <td className="px-6 py-4">
+                    <Link to={`/seller/order-details/${o._id}`}>
                       <button className="text-blue-500 hover:text-blue-700 focus:outline-none py-2 px-4 border border-blue-500 rounded-md transition-colors">
                         View
                       </button>
-                    </td>
-                  </Link>
+                    </Link>
+                  </td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan="4" className="text-center px-6 py-4 text-gray-500">
+                <td colSpan="5" className="text-center px-6 py-4 text-gray-500">
                   No orders found.
                 </td>
               </tr>
