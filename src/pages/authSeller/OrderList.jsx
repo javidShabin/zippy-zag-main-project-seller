@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { axiosInstance } from "../../config/axiosInstance";
+import { Link } from "react-router-dom";
 
 const OrderList = () => {
   const [restaurantId, setRestaurantId] = useState(null);
@@ -29,31 +29,29 @@ const OrderList = () => {
   // Fetch order list after restaurant ID is fetched
   useEffect(() => {
     const fetchOrderList = async () => {
-      if (!restaurantId) {
-        console.warn("Cannot fetch orders because restaurantId is null.");
-        return;
-      }
+      // if (!restaurantId) {
+      //   console.warn("Cannot fetch orders because restaurantId is null.");
+      //   return;
+      // }
 
       try {
-        const response = await axiosInstance({
-          method: "GET",
-          url: `/payment/orderByRestaurant/${restaurantId}`
-        })
-        console.log(response, "====daataaas")
-        // console.log("Order API response:", response); // Log full response for debugging
-        // if (response.data && response.data.orders) {
-        //   setOrders(response.data.orders);
-        //   console.log("Orders fetched successfully:", response.data.orders);
-        // } else {
-        //   console.warn("No orders found for this restaurant.");
-        // }
+        const response = await axiosInstance.get(
+          `/payment/orderByRestaurant/${restaurantId}`
+        );
+        console.log("Order API response:", response); // Log full response for debugging
+        if (response.data && response.data.orders) {
+          setOrders(response.data.orders);
+          console.log("Orders fetched successfully:", response.data.orders);
+        } else {
+          console.warn("No orders found for this restaurant.");
+        }
       } catch (error) {
-        // console.error("Error fetching order list:", error);
+        console.error("Error fetching order list:", error);
       }
     };
 
     fetchOrderList();
-  }, []);
+  }, [restaurantId]);
 
   return (
     <div className="order-list flex justify-center flex-col items-center p-6">
