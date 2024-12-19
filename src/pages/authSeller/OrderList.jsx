@@ -4,34 +4,36 @@ import { Link } from "react-router-dom";
 
 const OrderList = () => {
   const [restaurantId, setRestaurantId] = useState(null);
-  const [order, setOrder] = useState([]);
+  const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchRestaurantId = async () => {
       try {
         const response = await axiosInstance.get("/seller/profile");
         setRestaurantId(response.data.restaurant);
         console.log("Restaurant ID fetched:", response.data.restaurant);
-      } catch (err) {
-        console.error("Error fetching restaurant ID:", err);
+      } catch (error) {
+        console.error("Error fetching restaurant ID:", error);
       }
     };
-    fetchData();
+
+    fetchRestaurantId();
   }, []);
 
   useEffect(() => {
-    const getOrderList = async () => {
-      if (!restaurantId) return; // Wait until restaurantId is available
+    const fetchOrderList = async () => {
+      if (!restaurantId) return; // Ensure restaurantId is available
       try {
         const response = await axiosInstance.get(
           `/payment/orderBy-restaurant/${restaurantId}`
         );
-        setOrder(response.data.orders);
+        setOrders(response.data.orders);
       } catch (error) {
         console.error("Error fetching order list:", error);
       }
     };
-    getOrderList();
+
+    fetchOrderList();
   }, [restaurantId]);
 
   return (
@@ -41,46 +43,38 @@ const OrderList = () => {
         <table className="w-full table-auto border-collapse border border-gray-200 rounded-lg">
           <thead>
             <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-              <th scope="col" className="border border-gray-300 px-6 py-3">
-                Order ID
-              </th>
-              <th scope="col" className="border border-gray-300 px-6 py-3">
+              <th className="border border-gray-300 px-6 py-3">Order ID</th>
+              <th className="border border-gray-300 px-6 py-3">
                 Customer Name
               </th>
-              <th scope="col" className="border border-gray-300 px-6 py-3">
-                Total Amount
-              </th>
-              <th scope="col" className="border border-gray-300 px-6 py-3">
-                Status
-              </th>
-              <th scope="col" className="border border-gray-300 px-6 py-3">
-                Actions
-              </th>
+              <th className="border border-gray-300 px-6 py-3">Total Amount</th>
+              <th className="border border-gray-300 px-6 py-3">Status</th>
+              <th className="border border-gray-300 px-6 py-3">Actions</th>
             </tr>
           </thead>
           <tbody className="text-gray-700 text-sm">
-            {order.length > 0 ? (
-              order.map((o) => (
+            {orders.length > 0 ? (
+              orders.map((order) => (
                 <tr
-                  key={o._id}
+                  key={order._id}
                   className="border border-gray-200 hover:bg-gray-100 transition-colors"
                 >
-                  <td className="px-6 py-4">{o._id}</td>
-                  <td className="px-6 py-4">{o.address?.name || "N/A"}</td>
-                  <td className="px-6 py-4">${o.totalAmount.toFixed(2)}</td>
+                  <td className="px-6 py-4">{order._id}</td>
+                  <td className="px-6 py-4">{order.address?.name || "N/A"}</td>
+                  <td className="px-6 py-4">${order.totalAmount.toFixed(2)}</td>
                   <td className="px-6 py-4">
                     <span
                       className={`py-1 px-3 rounded-full text-xs ${
-                        o.orderStatus === "Completed"
+                        order.orderStatus === "Completed"
                           ? "bg-green-100 text-green-600"
                           : "bg-yellow-100 text-yellow-600"
                       }`}
                     >
-                      {o.orderStatus}
+                      {order.orderStatus}
                     </span>
                   </td>
                   <td className="px-6 py-4">
-                    <Link to={`/seller/order-details/${o._id}`}>
+                    <Link to={`/seller/order-details/${order._id}`}>
                       <button className="text-blue-500 hover:text-blue-700 focus:outline-none py-2 px-4 border border-blue-500 rounded-md transition-colors">
                         View
                       </button>
