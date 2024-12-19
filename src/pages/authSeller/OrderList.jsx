@@ -6,6 +6,7 @@ const OrderList = () => {
   const [restaurantId, setRestaurantId] = useState(null);
   const [orders, setOrders] = useState([]);
 
+  // Fetch Restaurant ID on component mount
   useEffect(() => {
     const fetchRestaurantId = async () => {
       try {
@@ -25,6 +26,7 @@ const OrderList = () => {
     fetchRestaurantId();
   }, []);
 
+  // Fetch order list after restaurant ID is fetched
   useEffect(() => {
     const fetchOrderList = async () => {
       if (!restaurantId) {
@@ -36,6 +38,7 @@ const OrderList = () => {
         const response = await axiosInstance.get(
           `/payment/orderByRestaurant/${restaurantId}`
         );
+        console.log("Order API response:", response.data); // Log full response for debugging
         if (response.data && response.data.orders) {
           setOrders(response.data.orders);
           console.log("Orders fetched successfully:", response.data.orders);
@@ -58,9 +61,7 @@ const OrderList = () => {
           <thead>
             <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
               <th className="border border-gray-300 px-6 py-3">Order ID</th>
-              <th className="border border-gray-300 px-6 py-3">
-                Customer Name
-              </th>
+              <th className="border border-gray-300 px-6 py-3">Customer Name</th>
               <th className="border border-gray-300 px-6 py-3">Total Amount</th>
               <th className="border border-gray-300 px-6 py-3">Status</th>
               <th className="border border-gray-300 px-6 py-3">Actions</th>
