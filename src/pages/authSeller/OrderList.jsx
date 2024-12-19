@@ -71,7 +71,11 @@ const OrderList = () => {
                     </span>
                   </td>
                   <Link to={`/seller/oder-details/${o._id}`}>
-                    <td>View</td>
+                    <td className="px-6 py-4">
+                      <button className="text-blue-500 hover:text-blue-700 focus:outline-none py-2 px-4 border border-blue-500 rounded-md transition-colors">
+                        View
+                      </button>
+                    </td>
                   </Link>
                 </tr>
               ))
