@@ -6,6 +6,8 @@ const OrderList = () => {
   const [restaurantId, setRestaurantId] = useState(null);
   const [orders, setOrders] = useState([]);
 
+  console.log(restaurantId, "===restaurant id")
+
   useEffect(() => {
     const fetchRestaurantId = async () => {
       try {
