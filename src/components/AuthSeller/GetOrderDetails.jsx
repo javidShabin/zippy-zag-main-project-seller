@@ -1,10 +1,21 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
+import { axiosInstance } from '../../config/axiosInstance'
 
 const GetOrderDetails = () => {
     const {orderId} = useParams()
 
-    console.log(orderId, "==id")
+    useEffect(()=>{
+        const getTheOrderById = async () => {
+            try {
+                const response = await axiosInstance.get(`/order/orders/${orderId}`)
+                console.log(response, "===the response")
+            } catch (error) {
+                
+            }
+        }
+        getTheOrderById()
+    },[])
   return (
     <div>
       <h1>The id {orderId}</h1>
