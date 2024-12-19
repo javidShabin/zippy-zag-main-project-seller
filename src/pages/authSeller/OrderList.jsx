@@ -38,7 +38,7 @@ const OrderList = () => {
         const response = await axiosInstance.get(
           `/payment/orderByRestaurant/${restaurantId}`
         );
-        console.log("Order API response:", response.data); // Log full response for debugging
+        console.log("Order API response:", response); // Log full response for debugging
         if (response.data && response.data.orders) {
           setOrders(response.data.orders);
           console.log("Orders fetched successfully:", response.data.orders);
