@@ -1,10 +1,10 @@
 import React from "react";
-import Restaurant from "./authSeller/Resteauranr";
+import RestaurantDetails from "./authSeller/RestaurantDetails";
 
 const Dashbord = () => {
   return (
     <>
-    <Restaurant />
+    <RestaurantDetails />
     </>
   )
 };
