@@ -34,7 +34,7 @@ const OrderList = () => {
   }, [restaurantId]); // Added restaurantId as a dependency
 
   return (
-    <div className="order-list flex justify-center flex-col items-center p-6 bg-white shadow-lg rounded-lg">
+    <div className="order-list flex justify-center flex-col items-center p-6">
   <h2 className="text-2xl font-bold mb-6 text-gray-700">Order List</h2>
   <div className="w-full overflow-x-auto">
     <table className="w-full table-auto border-collapse border border-gray-200 rounded-lg">
