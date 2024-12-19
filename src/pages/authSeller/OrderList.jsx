@@ -70,7 +70,7 @@ const OrderList = () => {
                       {o.orderStatus}
                     </span>
                   </td>
-                  <Link to={`/user/oder-details/${o._id}`}>
+                  <Link to={`/seller/oder-details/${o._id}`}>
                     <td>View</td>
                   </Link>
                 </tr>
