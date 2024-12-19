@@ -8,7 +8,7 @@ const GetOrderDetails = () => {
     useEffect(()=>{
         const getTheOrderById = async () => {
             try {
-                const response = await axiosInstance.get(`/order/orders/${orderId}`)
+                const response = await axiosInstance.get(`/payment/orders/${orderId}`)
                 console.log(response, "===the response")
             } catch (error) {
                 
