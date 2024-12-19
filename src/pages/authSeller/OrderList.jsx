@@ -53,7 +53,7 @@ const OrderList = () => {
     };
 
     fetchOrderList();
-  }, [restaurantId]);
+  }, []);
 
   return (
     <div className="order-list flex justify-center flex-col items-center p-6">
