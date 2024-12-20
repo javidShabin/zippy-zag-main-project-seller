@@ -5,13 +5,17 @@ import { Link } from "react-router-dom";
 const OrderList = () => {
   const [restaurantId, setRestaurantId] = useState(null);
   const [order, setOrder] = useState([]);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axiosInstance.get("/seller/profile");
-        setRestaurantId(response.data.restaurant);
-        console.log(response, "==der");
+        if (response.data && response.data.restaurant) {
+          setRestaurantId(response.data.restaurant);
+        } else {
+          console.error("Restaurant ID not found in the response:", response.data);
+        }
       } catch (err) {
         console.error("Error fetching restaurant ID:", err);
       }
@@ -21,32 +25,39 @@ const OrderList = () => {
 
   useEffect(() => {
     const getOrderList = async () => {
-      if (!restaurantId) return; // Wait until restaurantId is available
+      if (!restaurantId) return;
       try {
         const response = await axiosInstance.get(
-          `/payment/orderBy-restaurant/${restaurantId}`
+          `/payment/orderByRestaurant/${restaurantId}`
         );
-        setOrder(response.data.orders);
+        if (response.data && response.data.orders) {
+          setOrder(response.data.orders);
+        } else {
+          setErrorMessage("No orders found.");
+        }
       } catch (error) {
+        setErrorMessage("Failed to fetch order list. Please try again.");
         console.error("Error fetching order list:", error);
       }
     };
     getOrderList();
-  }, [restaurantId]); // Added restaurantId as a dependency
+  }, [restaurantId]);
 
   return (
     <div className="order-list flex justify-center flex-col items-center p-6">
       <h2 className="text-2xl font-bold mb-6 text-gray-700">Order List</h2>
+      {errorMessage && (
+        <p className="text-red-500 text-sm text-center my-4">{errorMessage}</p>
+      )}
       <div className="w-full overflow-x-auto">
         <table className="w-full table-auto border-collapse border border-gray-200 rounded-lg">
           <thead>
             <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
               <th className="border border-gray-300 px-6 py-3">Order ID</th>
-              <th className="border border-gray-300 px-6 py-3">
-                Customer Name
-              </th>
+              <th className="border border-gray-300 px-6 py-3">Customer Name</th>
               <th className="border border-gray-300 px-6 py-3">Total Amount</th>
               <th className="border border-gray-300 px-6 py-3">Status</th>
+              <th className="border border-gray-300 px-6 py-3">Actions</th>
             </tr>
           </thead>
           <tbody className="text-gray-700 text-sm">
@@ -70,18 +81,18 @@ const OrderList = () => {
                       {o.orderStatus}
                     </span>
                   </td>
-                  <Link to={`/seller/oder-details/${o._id}`}>
-                    <td className="px-6 py-4">
+                  <td className="px-6 py-4">
+                    <Link to={`/seller/order-details/${o._id}`}>
                       <button className="text-blue-500 hover:text-blue-700 focus:outline-none py-2 px-4 border border-blue-500 rounded-md transition-colors">
                         View
                       </button>
-                    </td>
-                  </Link>
+                    </Link>
+                  </td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan="4" className="text-center px-6 py-4 text-gray-500">
+                <td colSpan="5" className="text-center px-6 py-4 text-gray-500">
                   No orders found.
                 </td>
               </tr>
