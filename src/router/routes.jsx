@@ -56,7 +56,7 @@ export const router = createBrowserRouter([
             element: <CreateMenu />
           },
           {
-            path: "oder-details/:orderId",
+            path: "oder-details/:id",
             element: <GetOrderDetails />
           }
         ],

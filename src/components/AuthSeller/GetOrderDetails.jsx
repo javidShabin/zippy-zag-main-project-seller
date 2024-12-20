@@ -4,6 +4,7 @@ import { axiosInstance } from "../../config/axiosInstance";
 
 const GetOrderDetails = () => {
   const { orderId } = useParams();
+  console.log(orderId, "===id")
   const [orderDetails, setOrderDetails] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
