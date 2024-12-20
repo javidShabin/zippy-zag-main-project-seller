@@ -11,6 +11,8 @@ const MenuList = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
+  console.log(menus, "==manu");
+
   // Fetch seller's restaurant ID
   useEffect(() => {
     const fetchData = async () => {
@@ -43,6 +45,7 @@ const MenuList = () => {
 
   // Handle menu removal
   const handleRemoveMenu = async ({ menuId }) => {
+    console.log(menuId, "===items name");
     try {
       await axiosInstance.delete(`/menu/remove-menu/${menuId}`);
       setMenu((prevMenus) => prevMenus.filter((menu) => menu._id !== menuId));
@@ -97,10 +100,12 @@ const MenuList = () => {
                   {menu.name}
                 </h2>
                 <p className="text-gray-600 mb-2">{menu.description}</p>
-                <p className="text-lg font-bold text-green-600">₹{menu.price}</p>
+                <p className="text-lg font-bold text-green-600">
+                  ₹{menu.price}
+                </p>
               </div>
               <button
-                onClick={() => handleRemoveMenu({ menuId: menu._id })}
+                onClick={() => handleRemoveMenu({menuId:menu._id})} // Pass the menu ID directly
                 className="flex items-center text-red-600 hover:text-red-800 mt-4"
               >
                 <Trash className="w-5 h-5 mr-1" />
