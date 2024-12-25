@@ -128,7 +128,7 @@ const RestaurantDetails = () => {
       </div>
 
       {/* Edit Button - Positioned at the bottom right corner */}
-      <button
+      {/* <button
         className="absolute bottom-4 right-4 px-6 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
         onClick={() => {
           // Handle edit action (e.g., redirect to edit page or open modal)
@@ -136,7 +136,7 @@ const RestaurantDetails = () => {
         }}
       >
         Edit
-      </button>
+      </button> */}
     </div>
   );
 };
